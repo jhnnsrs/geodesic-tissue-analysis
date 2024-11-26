@@ -1,0 +1,6 @@
+author: Alexander Wilhelmi
+entrypoint: app
+identifier: geodesic-tissue-analysis
+scopes:
+- read
+version: 0.0.1
