@@ -35,7 +35,7 @@ classdef App < handle
         end
         
         function sendMessage(obj, message)
-            fprintf('%s%s\n', obj.magicWord, jsonencode(struct("message", message)));
+            fprintf('%s%s\n', obj.magicWord + "||", jsonencode(struct("message", message)) + "||");
         end
 
         function dumpRegistry(obj)

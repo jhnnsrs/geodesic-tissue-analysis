@@ -54,14 +54,29 @@ def ome_tiff_to_timage(file: OMETiffStructure, name: str) -> Image:
 @click.command()
 def run(script: str):
     
-    app = easy()
+    app = easy("fuck_matlab", url="jhnnsrs-lab")
 
     rekuest: RekuestNext = app.services.get("rekuest")
 
-    rekuest.agent.register_extension("cli", CLIExtension(f"octave --no-gui --quiet {script}"))
+
+    async def on_init(handle):
+        print("running")
+        print(await handle.read(until="Enter: "))
+        await handle.write("aleschro@em.uni-frankfurt.de")
+        print(await handle.read("Enter: "))
+        await handle.write(f"*******")
+
+
+    async def on_print(x):
+        print(x)
+
+
+    rekuest.agent.register_extension("cli", CLIExtension(run_script=f'''/bin/run.sh -nodesktop -nosplash -nodisplay -r "run('/workspaces/geodesic-tissue-analysis/{script}'); exit;"''', on_init=on_init, on_process_stdout=on_print))
 
     with app:
         try:
+
+
             app.run()
         except Exception:
             raise 
